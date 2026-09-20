@@ -38,7 +38,13 @@ app.get('/api/languages', async (req, res) => {
        LEFT JOIN titles t ON t.language_id = l.id
        WHERE l.category = ?
        GROUP BY l.id, l.name
-       ORDER BY l.name`,
+       ORDER BY 
+         CASE 
+           WHEN LOWER(l.name) = 'tamil' THEN 1
+           WHEN LOWER(l.name) = 'english' THEN 2
+           ELSE 3
+         END,
+         l.name ASC`,
       [category]
     );
     res.json(rows);

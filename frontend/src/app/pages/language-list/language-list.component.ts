@@ -61,7 +61,7 @@ import { ApiService, Language } from '../../services/api.service';
               id="lang-input"
               type="text"
               [(ngModel)]="newLangName"
-              placeholder="e.g. Tamil, Hindi, English…"
+              placeholder="e.g. Tamil, English, Malayalam…"
               (keydown.enter)="submit()"
               autocomplete="off"
             />
@@ -110,7 +110,18 @@ export class LanguageListComponent implements OnInit {
   load(): void {
     this.loading = true;
     this.api.getLanguages(this.category).subscribe({
-      next: (data) => { this.languages = data; this.loading = false; },
+      next: (data) => {
+        this.languages = data.sort((a, b) => {
+          const nameA = a.name.toLowerCase();
+          const nameB = b.name.toLowerCase();
+          if (nameA === 'tamil') return -1;
+          if (nameB === 'tamil') return 1;
+          if (nameA === 'english') return -1;
+          if (nameB === 'english') return 1;
+          return nameA.localeCompare(nameB);
+        });
+        this.loading = false;
+      },
       error: () => (this.loading = false),
     });
   }
