@@ -25,7 +25,15 @@ export interface Stat {
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private base = 'http://localhost:3000/api';
+  private get base(): string {
+    if (typeof window !== 'undefined' && (window as any).API_URL) {
+      return (window as any).API_URL + '/api';
+    }
+    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+      return 'http://localhost:3000/api';
+    }
+    return '/api';
+  }
 
   constructor(private http: HttpClient) {}
 
