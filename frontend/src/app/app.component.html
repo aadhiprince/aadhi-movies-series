@@ -1,0 +1,32 @@
+<!-- Topbar -->
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="back-btn" *ngIf="showBack" (click)="goBack()" id="back-btn" aria-label="Go back">‹</button>
+    <div class="brand" (click)="goHome()">
+      <span class="brand-name">Aadhi</span>
+      <span class="brand-sub">movies &amp; series</span>
+    </div>
+  </div>
+  <button class="theme-toggle" (click)="toggleTheme()" id="theme-toggle-btn" [attr.aria-label]="isDark ? 'Switch to light mode' : 'Switch to dark mode'">
+    {{ isDark ? '☀️' : '🌙' }}
+  </button>
+</header>
+
+<!-- Page content -->
+<router-outlet></router-outlet>
+
+<!-- Bottom Navigation -->
+<nav class="bottom-nav" aria-label="Main navigation">
+  <button class="nav-item" [class.active]="activeTab === 'home'" (click)="navigate('/')" id="nav-home">
+    <span class="nav-icon">🏠</span>
+    <span class="nav-label">Home</span>
+  </button>
+  <button class="nav-item" [class.active]="activeTab === 'movie'" (click)="navigate('/movie')" id="nav-movies">
+    <span class="nav-icon">🎬</span>
+    <span class="nav-label">Movies</span>
+  </button>
+  <button class="nav-item" [class.active]="activeTab === 'series'" (click)="navigate('/series')" id="nav-series">
+    <span class="nav-icon">📺</span>
+    <span class="nav-label">Series</span>
+  </button>
+</nav>
